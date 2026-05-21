@@ -1,0 +1,43 @@
+name: portfolio_admin
+description: Mobile admin for the Maurico Maun portfolio CMS.
+publish_to: "none"
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.4.0
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # Routing
+  go_router: ^14.0.0
+
+  # State
+  flutter_riverpod: ^2.5.1
+
+  # Networking
+  dio: ^5.4.0
+
+  # Auth (GitHub OAuth Code + PKCE)
+  flutter_appauth: ^7.0.0
+  flutter_secure_storage: ^9.2.0
+
+  # Typography (fallback if system Inter / JetBrains Mono unavailable)
+  google_fonts: ^6.2.1
+
+  # Icons — Lucide subset per design
+  lucide_icons: ^0.257.0
+
+  # Image picking (gallery + camera)
+  image_picker: ^1.1.0
+
+dev_dependencies:
+  flutter_lints: ^4.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
