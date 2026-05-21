@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'auth/auth_provider.dart';
 import 'screens/dashboard.dart';
 import 'screens/design_system.dart';
+import 'screens/keywords/keyword_editor.dart';
+import 'screens/keywords/keywords_list.dart';
 import 'screens/projects/project_editor.dart';
 import 'screens/projects/projects_list.dart';
 import 'screens/sign_in.dart';
@@ -50,7 +52,21 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/skills', builder: (_, __) => Stubs.skills),
       GoRoute(path: '/posts', builder: (_, __) => Stubs.posts),
-      GoRoute(path: '/keywords', builder: (_, __) => Stubs.keywords),
+      GoRoute(
+        path: '/keywords',
+        builder: (_, __) => const KeywordsListScreen(),
+        routes: [
+          GoRoute(
+            path: 'new',
+            builder: (_, __) => const KeywordEditorScreen(),
+          ),
+          GoRoute(
+            path: ':id',
+            builder: (_, state) =>
+                KeywordEditorScreen(id: state.pathParameters['id']),
+          ),
+        ],
+      ),
       GoRoute(path: '/sections', builder: (_, __) => Stubs.sections),
       GoRoute(
           path: '/notifications', builder: (_, __) => Stubs.notifications),

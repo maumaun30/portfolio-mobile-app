@@ -59,7 +59,7 @@ Create a GitHub OAuth App (`https://github.com/settings/developers`):
 
 1. ~~Projects list + editor~~ — done.
 2. ~~Image upload bottom sheet~~ — done. Picker / uploading-with-progress / done-with-blob-URL-preview / error states. Used by the project editor's cover field; ready to reuse on the post editor.
-3. Keywords list with "Generate now" action wired to `/api/blog/generate`.
+3. ~~Keywords list with "Generate now" action wired to `/api/blog/generate`~~ — done. Hero auto-blog CTA fires the global generate; per-row spark button generates for a specific term. Inline enable/disable switch. Editor for create/edit. New REST endpoints `/api/keywords` + `/api/keywords/[id]` on the Next.js side.
 4. Posts list + markdown editor.
 5. Skills list with reorder.
 6. Page sections editor.
