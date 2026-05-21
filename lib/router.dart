@@ -8,6 +8,8 @@ import 'screens/keywords/keyword_editor.dart';
 import 'screens/keywords/keywords_list.dart';
 import 'screens/posts/post_editor.dart';
 import 'screens/posts/posts_list.dart';
+import 'screens/skills/skill_editor.dart';
+import 'screens/skills/skills_list.dart';
 import 'screens/projects/project_editor.dart';
 import 'screens/projects/projects_list.dart';
 import 'screens/sign_in.dart';
@@ -52,7 +54,21 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
-      GoRoute(path: '/skills', builder: (_, __) => Stubs.skills),
+      GoRoute(
+        path: '/skills',
+        builder: (_, __) => const SkillsListScreen(),
+        routes: [
+          GoRoute(
+            path: 'new',
+            builder: (_, __) => const SkillEditorScreen(),
+          ),
+          GoRoute(
+            path: ':id',
+            builder: (_, state) =>
+                SkillEditorScreen(id: state.pathParameters['id']),
+          ),
+        ],
+      ),
       GoRoute(
         path: '/posts',
         builder: (_, __) => const PostsListScreen(),
