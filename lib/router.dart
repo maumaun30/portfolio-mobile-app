@@ -8,6 +8,7 @@ import 'screens/keywords/keyword_editor.dart';
 import 'screens/keywords/keywords_list.dart';
 import 'screens/posts/post_editor.dart';
 import 'screens/posts/posts_list.dart';
+import 'screens/notifications.dart';
 import 'screens/sections/section_editor.dart';
 import 'screens/sections/sections_list.dart';
 import 'screens/skills/skill_editor.dart';
@@ -113,7 +114,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
-          path: '/notifications', builder: (_, __) => Stubs.notifications),
+        path: '/notifications',
+        builder: (_, __) => const NotificationsScreen(),
+      ),
       GoRoute(path: '/search', builder: (_, __) => Stubs.search),
       GoRoute(path: '/settings', builder: (_, __) => Stubs.settings),
       GoRoute(
