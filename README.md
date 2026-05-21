@@ -13,6 +13,8 @@ Implements the design system from `claude.ai/design` → "Portfolio Mobile App".
 - `lib/models/project.dart` — typed Project model matching the Drizzle schema.
 - `lib/router.dart` — `go_router` with auth-aware redirects and nested `/projects/:id` routes.
 
+All drawer routes are now real screens — no more stubs. Stub_screen.dart is gone.
+
 ### Projects screens implemented
 - **List** — pull-to-refresh, loading shimmer rows, empty state, error state with retry, sub-bar with count and sort dropdown, pill FAB. Swipe-end-to-start opens the editor (delete lives inside).
 - **Editor** — cover (URL prompt for now), name, slug (auto from name, regex validation), domain, link, description, stacks tag input (chips + add-on-submit), status + isCurrent toggles, sticky save bar, error banner on save failure, destructive "Delete project…" → `ConfirmDeleteSheet` requiring the slug typed verbatim.

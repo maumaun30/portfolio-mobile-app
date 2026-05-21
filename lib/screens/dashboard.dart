@@ -1,89 +1,130 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import '../api/stats_api.dart';
 import '../theme/tokens.dart';
 import '../widgets/screen_scaffold.dart';
 import '../widgets/section_label.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final async = ref.watch(dashboardStatsProvider);
+
     return ScreenScaffold(
       title: 'Dashboard',
-      child: ListView(
-        padding: const EdgeInsets.fromLTRB(
-          AppTokens.gutter,
-          18,
-          AppTokens.gutter,
-          24,
-        ),
-        children: [
-          const SectionLabel('Overview'),
-          const SizedBox(height: 10),
-          Text(
-            'Studio',
-            style: GoogleFonts.inter(
-              fontSize: 28,
-              fontWeight: FontWeight.w600,
-              letterSpacing: -0.6,
-              color: AppTokens.ink,
+      child: RefreshIndicator(
+        color: AppTokens.accent,
+        backgroundColor: AppTokens.surface,
+        onRefresh: () => ref.refresh(dashboardStatsProvider.future),
+        child: ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: const EdgeInsets.fromLTRB(
+            AppTokens.gutter,
+            18,
+            AppTokens.gutter,
+            24,
+          ),
+          children: [
+            const SectionLabel('Overview'),
+            const SizedBox(height: 10),
+            Text(
+              'Studio',
+              style: GoogleFonts.inter(
+                fontSize: 28,
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.6,
+                color: AppTokens.ink,
+              ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Last edited the hero section · 2h ago',
-            style: TextStyle(fontSize: 13, color: AppTokens.inkDim),
-          ),
-          const SizedBox(height: 22),
-          GridView.count(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 1.35,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: const [
-              _StatTile(label: 'Projects', value: '14'),
-              _StatTile(label: 'Skills', value: '22'),
-              _StatTile(label: 'Posts', value: '9'),
-              _StatTile(label: 'Sections', value: '6'),
-            ],
-          ),
-          const SizedBox(height: 24),
-          const SectionLabel('Quick actions'),
-          const SizedBox(height: 10),
-          const _QuickAction(
-            icon: LucideIcons.plus,
-            title: 'New project',
-            subtitle: 'Add a portfolio entry',
-            route: '/projects/new',
-          ),
-          const SizedBox(height: 10),
-          const _QuickAction(
-            icon: LucideIcons.fileText,
-            title: 'New post',
-            subtitle: 'Write a blog or case study',
-            route: '/posts/new',
-          ),
-          const SizedBox(height: 10),
-          const _QuickAction(
-            icon: LucideIcons.sparkles,
-            title: 'Generate blog',
-            subtitle: 'Run the auto-blog now',
-            route: '/keywords',
-          ),
-        ],
+            const SizedBox(height: 4),
+            Text(
+              async.when(
+                data: (s) =>
+                    '${s.projects + s.posts + s.skills} entries across the portfolio',
+                loading: () => 'Loading counts…',
+                error: (_, __) => 'Counts unavailable — pull to retry',
+              ),
+              style: TextStyle(fontSize: 13, color: AppTokens.inkDim),
+            ),
+            const SizedBox(height: 22),
+            GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 12,
+              mainAxisSpacing: 12,
+              childAspectRatio: 1.35,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                _StatTile(
+                  label: 'Projects',
+                  value: async.maybeWhen(
+                      data: (s) => '${s.projects}', orElse: () => '—'),
+                  loading: async.isLoading,
+                ),
+                _StatTile(
+                  label: 'Skills',
+                  value: async.maybeWhen(
+                      data: (s) => '${s.skills}', orElse: () => '—'),
+                  loading: async.isLoading,
+                ),
+                _StatTile(
+                  label: 'Posts',
+                  value: async.maybeWhen(
+                      data: (s) => '${s.posts}', orElse: () => '—'),
+                  loading: async.isLoading,
+                ),
+                _StatTile(
+                  label: 'Keywords',
+                  value: async.maybeWhen(
+                      data: (s) => '${s.keywords}', orElse: () => '—'),
+                  loading: async.isLoading,
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+            const SectionLabel('Quick actions'),
+            const SizedBox(height: 10),
+            _QuickAction(
+              icon: LucideIcons.plus,
+              title: 'New project',
+              subtitle: 'Add a portfolio entry',
+              onTap: () => context.push('/projects/new'),
+            ),
+            const SizedBox(height: 10),
+            _QuickAction(
+              icon: LucideIcons.fileText,
+              title: 'New post',
+              subtitle: 'Write a blog or case study',
+              onTap: () => context.push('/posts/new'),
+            ),
+            const SizedBox(height: 10),
+            _QuickAction(
+              icon: LucideIcons.sparkles,
+              title: 'Generate blog',
+              subtitle: 'Run the auto-blog now',
+              onTap: () => context.push('/keywords'),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 class _StatTile extends StatelessWidget {
-  const _StatTile({required this.label, required this.value});
+  const _StatTile({
+    required this.label,
+    required this.value,
+    required this.loading,
+  });
   final String label;
   final String value;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
@@ -106,15 +147,24 @@ class _StatTile extends StatelessWidget {
               color: AppTokens.inkMuted,
             ),
           ),
-          Text(
-            value,
-            style: GoogleFonts.inter(
-              fontSize: 30,
-              fontWeight: FontWeight.w600,
-              letterSpacing: -0.8,
-              color: AppTokens.ink,
-            ),
-          ),
+          loading
+              ? Container(
+                  height: 28,
+                  width: 60,
+                  decoration: BoxDecoration(
+                    color: AppTokens.surfaceHi,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                )
+              : Text(
+                  value,
+                  style: GoogleFonts.inter(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: -0.8,
+                    color: AppTokens.ink,
+                  ),
+                ),
         ],
       ),
     );
@@ -126,18 +176,18 @@ class _QuickAction extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.subtitle,
-    required this.route,
+    required this.onTap,
   });
   final IconData icon;
   final String title;
   final String subtitle;
-  final String route;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(AppTokens.cardRadius),
-      onTap: () {},
+      onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(

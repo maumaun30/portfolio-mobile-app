@@ -9,15 +9,16 @@ import 'screens/keywords/keywords_list.dart';
 import 'screens/posts/post_editor.dart';
 import 'screens/posts/posts_list.dart';
 import 'screens/notifications.dart';
+import 'screens/search.dart';
 import 'screens/sections/section_editor.dart';
 import 'screens/sections/sections_list.dart';
+import 'screens/settings.dart';
 import 'screens/skills/skill_editor.dart';
 import 'screens/skills/skills_list.dart';
 import 'screens/projects/project_editor.dart';
 import 'screens/projects/projects_list.dart';
 import 'screens/sign_in.dart';
 import 'screens/splash.dart';
-import 'screens/stub_screen.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final auth = ref.watch(authControllerProvider);
@@ -117,8 +118,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/notifications',
         builder: (_, __) => const NotificationsScreen(),
       ),
-      GoRoute(path: '/search', builder: (_, __) => Stubs.search),
-      GoRoute(path: '/settings', builder: (_, __) => Stubs.settings),
+      GoRoute(path: '/search', builder: (_, __) => const SearchScreen()),
+      GoRoute(path: '/settings', builder: (_, __) => const SettingsScreen()),
       GoRoute(
           path: '/design-system',
           builder: (_, __) => const DesignSystemScreen()),
