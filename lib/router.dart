@@ -8,6 +8,8 @@ import 'screens/keywords/keyword_editor.dart';
 import 'screens/keywords/keywords_list.dart';
 import 'screens/posts/post_editor.dart';
 import 'screens/posts/posts_list.dart';
+import 'screens/sections/section_editor.dart';
+import 'screens/sections/sections_list.dart';
 import 'screens/skills/skill_editor.dart';
 import 'screens/skills/skills_list.dart';
 import 'screens/projects/project_editor.dart';
@@ -99,7 +101,17 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
         ],
       ),
-      GoRoute(path: '/sections', builder: (_, __) => Stubs.sections),
+      GoRoute(
+        path: '/sections',
+        builder: (_, __) => const SectionsListScreen(),
+        routes: [
+          GoRoute(
+            path: ':name',
+            builder: (_, state) =>
+                SectionEditorScreen(name: state.pathParameters['name']!),
+          ),
+        ],
+      ),
       GoRoute(
           path: '/notifications', builder: (_, __) => Stubs.notifications),
       GoRoute(path: '/search', builder: (_, __) => Stubs.search),
