@@ -34,6 +34,9 @@ dependencies:
   # Image picking (gallery + camera)
   image_picker: ^1.1.0
 
+  # Markdown rendering for post editor preview
+  flutter_markdown: ^0.7.4
+
 dev_dependencies:
   flutter_lints: ^4.0.0
   flutter_test:

@@ -6,6 +6,8 @@ import 'screens/dashboard.dart';
 import 'screens/design_system.dart';
 import 'screens/keywords/keyword_editor.dart';
 import 'screens/keywords/keywords_list.dart';
+import 'screens/posts/post_editor.dart';
+import 'screens/posts/posts_list.dart';
 import 'screens/projects/project_editor.dart';
 import 'screens/projects/projects_list.dart';
 import 'screens/sign_in.dart';
@@ -51,7 +53,21 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(path: '/skills', builder: (_, __) => Stubs.skills),
-      GoRoute(path: '/posts', builder: (_, __) => Stubs.posts),
+      GoRoute(
+        path: '/posts',
+        builder: (_, __) => const PostsListScreen(),
+        routes: [
+          GoRoute(
+            path: 'new',
+            builder: (_, __) => const PostEditorScreen(),
+          ),
+          GoRoute(
+            path: ':id',
+            builder: (_, state) =>
+                PostEditorScreen(id: state.pathParameters['id']),
+          ),
+        ],
+      ),
       GoRoute(
         path: '/keywords',
         builder: (_, __) => const KeywordsListScreen(),

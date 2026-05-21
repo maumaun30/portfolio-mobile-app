@@ -60,6 +60,6 @@ Create a GitHub OAuth App (`https://github.com/settings/developers`):
 1. ~~Projects list + editor~~ — done.
 2. ~~Image upload bottom sheet~~ — done. Picker / uploading-with-progress / done-with-blob-URL-preview / error states. Used by the project editor's cover field; ready to reuse on the post editor.
 3. ~~Keywords list with "Generate now" action wired to `/api/blog/generate`~~ — done. Hero auto-blog CTA fires the global generate; per-row spark button generates for a specific term. Inline enable/disable switch. Editor for create/edit. New REST endpoints `/api/keywords` + `/api/keywords/[id]` on the Next.js side.
-4. Posts list + markdown editor.
+4. ~~Posts list + markdown editor~~ — done. Filter chips (All / Blog / Case study), row with cover thumb + type + date + status badge, FAB to add. Editor has cover (via ImageUploadSheet), title, type dropdown, status switch, slug (auto from title, regex-validated), excerpt, markdown body with Write / Preview tabs (flutter_markdown), bottom bar with separate Publish pill and Save & publish / Save draft action.
 5. Skills list with reorder.
 6. Page sections editor.
