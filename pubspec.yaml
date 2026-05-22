@@ -22,14 +22,14 @@ dependencies:
   dio: ^5.4.0
 
   # Auth (GitHub OAuth Code + PKCE)
-  flutter_appauth: ^7.0.0
+  flutter_appauth: ^12.0.0
   flutter_secure_storage: ^9.2.0
 
   # Typography (fallback if system Inter / JetBrains Mono unavailable)
   google_fonts: ^6.2.1
 
   # Icons — Lucide subset per design
-  lucide_icons: ^0.257.0
+  lucide_icons_flutter: ^3.1.14
 
   # Image picking (gallery + camera)
   image_picker: ^1.1.0

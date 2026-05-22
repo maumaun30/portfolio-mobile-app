@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../api/api_client.dart';
 import '../auth/auth_provider.dart';
 import '../theme/tokens.dart';
@@ -31,7 +31,7 @@ class SettingsScreen extends ConsumerWidget {
           _Group(
             children: [
               _Row(
-                icon: LucideIcons.github,
+                icon: LucideIcons.userCircle,
                 label: 'Signed in',
                 value: signedIn ? 'GITHUB' : 'NOT SIGNED IN',
                 tone: signedIn ? AppTokens.accent : AppTokens.inkMuted,

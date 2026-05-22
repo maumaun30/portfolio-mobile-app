@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/keyword.dart';
 import 'api_client.dart';
@@ -61,7 +62,7 @@ class KeywordsApi {
     final res = await dio.post<Map<String, dynamic>>(
       '/api/blog/generate',
       data: keywordId != null ? {'keywordId': keywordId} : {},
-      options: dio.options.copyWith(
+      options: Options(
         receiveTimeout: const Duration(seconds: 120),
         sendTimeout: const Duration(seconds: 120),
       ),

@@ -172,7 +172,7 @@ class AppTheme {
       ),
 
       // Kill M3 card defaults; we use plain Containers + borders.
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData(
         color: AppTokens.surface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,

@@ -51,11 +51,9 @@ Implemented. The portfolio repo now ships:
 
 The plain token is returned ONCE on exchange — `flutter_secure_storage` keeps it on-device after that.
 
-## OAuth setup
+## OAuth & platform setup
 
-Create a GitHub OAuth App (`https://github.com/settings/developers`):
-- Authorization callback URL: `portfolio-admin://oauth/callback`
-- Add `OAUTH_REDIRECT_URI` to `android/app/src/main/AndroidManifest.xml` as an `intent-filter` and to `ios/Runner/Info.plist` as a `CFBundleURLSchemes` entry. See `flutter_appauth` docs.
+See [PLATFORM_SETUP.md](./PLATFORM_SETUP.md) for the one-time `flutter create .`, Android intent-filter, iOS URL scheme, and image-picker permission patches.
 
 ## Next screens to build (in priority order)
 

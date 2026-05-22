@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lucide_icons/lucide_icons.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../auth/auth_provider.dart';
 import '../theme/tokens.dart';
 import '../widgets/section_label.dart';
@@ -68,7 +68,7 @@ class SignInScreen extends ConsumerWidget {
                 onPressed: loading
                     ? null
                     : () => ref.read(authControllerProvider.notifier).signIn(),
-                icon: const Icon(LucideIcons.github, size: 18),
+                icon: const Icon(LucideIcons.logIn, size: 18),
                 label: Text(loading ? 'Authorizing…' : 'Continue with GitHub'),
               ),
               const SizedBox(height: 12),
