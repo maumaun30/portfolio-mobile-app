@@ -18,20 +18,11 @@ Then apply the GitHub-OAuth and image-picker patches below. Run `flutter analyze
 
 The mobile app uses `flutter_appauth` (PKCE). After GitHub redirects to `portfolio-admin://oauth/callback`, the OS needs to know which app handles that scheme.
 
-### Android — `android/app/src/main/AndroidManifest.xml`
+### Android — `android/app/build.gradle.kts`
 
-Inside `<activity android:name=".MainActivity" ...>`, add **next to the existing `<intent-filter>` for `android.intent.action.MAIN`**:
+> **Do not add a `<data android:scheme="portfolio-admin" ...>` intent-filter to MainActivity.** flutter_appauth ≥ 12 already registers its own `RedirectUriReceiverActivity` for the scheme declared via `manifestPlaceholders["appAuthRedirectScheme"]`. A duplicate intent-filter on MainActivity competes with it, and Android may route the OAuth callback to MainActivity — which can't complete the AppAuth Future, leaving the app on a blank screen after sign-in.
 
-```xml
-<intent-filter android:autoVerify="true">
-    <action android:name="android.intent.action.VIEW" />
-    <category android:name="android.intent.category.DEFAULT" />
-    <category android:name="android.intent.category.BROWSABLE" />
-    <data android:scheme="portfolio-admin" android:host="oauth" />
-</intent-filter>
-```
-
-Also inside `android/app/build.gradle.kts` (Module-level — modern Flutter uses Kotlin DSL), set `compileSdk = 36` (image_picker_android requirement), bump `minSdk` to at least 21 (flutter_appauth requirement), and declare the `appAuthRedirectScheme` placeholder used by the AppAuth library:
+Inside `android/app/build.gradle.kts` (Module-level — modern Flutter uses Kotlin DSL), set `compileSdk = 36` (image_picker_android requirement), bump `minSdk` to at least 21 (flutter_appauth requirement), and declare the `appAuthRedirectScheme` placeholder used by the AppAuth library:
 
 ```kotlin
 android {
