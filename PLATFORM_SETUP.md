@@ -56,6 +56,22 @@ Inside `<dict>`, add the URL scheme:
 
 ---
 
+### Android — launch theme background
+
+Flutter's default `launch_background.xml` is `@android:color/white`, and `NormalTheme` inherits `Theme.Light`/`Theme.Black` which gives the window a white background until Flutter draws its first frame. After GitHub's Custom Tab dismisses, Android may relaunch MainActivity — and you'll see a white flash (or a permanently white screen if AppAuth's in-memory state was killed with the activity and the redirect Future never resolves).
+
+Add `android/app/src/main/res/values/colors.xml`:
+
+```xml
+<resources>
+    <color name="appBg">#0a0907</color>
+</resources>
+```
+
+Point both `drawable/launch_background.xml` and `drawable-v21/launch_background.xml` at `@color/appBg`, and set `windowBackground` to `@color/appBg` in both `values/styles.xml` and `values-night/styles.xml` (`LaunchTheme` and `NormalTheme`). This makes any flash match the app and turns "white blank" into a useful signal — if you still see a colored-but-empty screen after OAuth, MainActivity is being killed and AppAuth state is lost (see §1 note).
+
+---
+
 ## 2. Image picker — gallery & camera permissions
 
 ### iOS — `ios/Runner/Info.plist`
