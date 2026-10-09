@@ -27,8 +27,8 @@ class AuthController extends StateNotifier<AsyncValue<String?>> {
   Future<void> signIn() async {
     state = const AsyncValue.loading();
     try {
-      final githubToken = await _svc.signInWithGitHub();
-      final apiToken = await _exchange(githubToken);
+      final res = await _svc.authorizeWithGitHub();
+      final apiToken = await _exchange(res.code, res.codeVerifier);
       await _svc.writeToken(apiToken);
       state = AsyncValue.data(apiToken);
     } catch (e, st) {
@@ -36,9 +36,10 @@ class AuthController extends StateNotifier<AsyncValue<String?>> {
     }
   }
 
-  /// Swap a GitHub access token for an API bearer token via
-  /// `POST /api/auth/exchange`. Server enforces the ADMIN_GITHUB_LOGIN gate.
-  Future<String> _exchange(String githubAccessToken) async {
+  /// Send the PKCE { code, codeVerifier } to the backend, which uses
+  /// GITHUB_OAUTH_CLIENT_SECRET to swap with GitHub and returns a
+  /// long-lived API token. Server enforces the ADMIN_GITHUB_LOGIN gate.
+  Future<String> _exchange(String code, String codeVerifier) async {
     final dio = Dio(BaseOptions(
       baseUrl: apiBaseUrl,
       headers: {'Accept': 'application/json'},
@@ -46,7 +47,9 @@ class AuthController extends StateNotifier<AsyncValue<String?>> {
     final res = await dio.post<Map<String, dynamic>>(
       '/api/auth/exchange',
       data: {
-        'githubAccessToken': githubAccessToken,
+        'code': code,
+        'codeVerifier': codeVerifier,
+        'redirectUri': AuthService.redirectUri,
         'label': 'mobile',
       },
     );
