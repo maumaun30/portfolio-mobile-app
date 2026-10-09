@@ -32,7 +32,7 @@ class ConfirmDeleteSheet extends StatefulWidget {
     return showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      barrierColor: const Color.fromRGBO(10, 9, 7, 0.7),
+      barrierColor: AppTokens.scrim,
       builder: (_) => ConfirmDeleteSheet(
         title: title,
         description: description,
@@ -105,7 +105,7 @@ class _ConfirmDeleteSheetState extends State<ConfirmDeleteSheet> {
                     color: AppTokens.danger10,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(LucideIcons.trash2,
+                  child: Icon(LucideIcons.trash2,
                       color: AppTokens.danger, size: 18),
                 ),
                 const SizedBox(width: 14),
@@ -147,7 +147,7 @@ class _ConfirmDeleteSheetState extends State<ConfirmDeleteSheet> {
               ),
               child: Row(
                 children: [
-                  const Icon(LucideIcons.alertCircle,
+                  Icon(LucideIcons.alertCircle,
                       size: 13, color: AppTokens.inkMuted),
                   const SizedBox(width: 8),
                   Expanded(

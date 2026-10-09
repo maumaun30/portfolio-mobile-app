@@ -6,8 +6,12 @@ import 'tokens.dart';
 /// Rule of thumb: if M3 surfaces a brand color, override it.
 /// If M3 surfaces a tint or shadow, kill it. Borders carry structure.
 class AppTheme {
-  static ThemeData build() {
-    final colorScheme = ColorScheme.dark(
+  /// Builds the theme for [palette]. Also makes it the active token set so
+  /// widgets reading [AppTokens] directly agree with the ThemeData.
+  static ThemeData build(AppPalette palette) {
+    AppTokens.use(palette);
+    final isDark = palette.brightness == Brightness.dark;
+    final colorScheme = (isDark ? ColorScheme.dark : ColorScheme.light)(
       primary: AppTokens.accent,
       onPrimary: AppTokens.onAccent,
       secondary: AppTokens.accent,
@@ -22,7 +26,7 @@ class AppTheme {
 
     final base = ThemeData(
       useMaterial3: true,
-      brightness: Brightness.dark,
+      brightness: palette.brightness,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: AppTokens.bg,
       canvasColor: AppTokens.bg,
@@ -31,34 +35,34 @@ class AppTheme {
     );
 
     final textTheme = GoogleFonts.interTextTheme(base.textTheme).copyWith(
-      displayLarge: const TextStyle(
+      displayLarge: TextStyle(
         fontSize: 28,
         fontWeight: FontWeight.w600,
         letterSpacing: -0.6,
         color: AppTokens.ink,
       ),
-      titleLarge: const TextStyle(
+      titleLarge: TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.w600,
         letterSpacing: -0.4,
         color: AppTokens.ink,
       ),
-      titleMedium: const TextStyle(
+      titleMedium: TextStyle(
         fontSize: 17,
         fontWeight: FontWeight.w600,
         color: AppTokens.ink,
       ),
-      bodyLarge: const TextStyle(
+      bodyLarge: TextStyle(
         fontSize: 15,
         height: 1.5,
         color: AppTokens.ink,
       ),
-      bodyMedium: const TextStyle(
+      bodyMedium: TextStyle(
         fontSize: 13.5,
         height: 1.5,
         color: AppTokens.ink,
       ),
-      labelLarge: const TextStyle(
+      labelLarge: TextStyle(
         fontSize: 12,
         fontWeight: FontWeight.w500,
         color: AppTokens.ink,
@@ -79,14 +83,14 @@ class AppTheme {
         filled: true,
         fillColor: AppTokens.surface,
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         border: borderOf(AppTokens.line),
         enabledBorder: borderOf(AppTokens.line),
         focusedBorder: borderOf(AppTokens.accent),
         errorBorder: borderOf(AppTokens.danger),
         focusedErrorBorder: borderOf(AppTokens.danger),
-        hintStyle: const TextStyle(color: AppTokens.inkMuted),
-        labelStyle: const TextStyle(color: AppTokens.inkDim),
+        hintStyle: TextStyle(color: AppTokens.inkMuted),
+        labelStyle: TextStyle(color: AppTokens.inkDim),
       ),
 
       // — primary CTAs are full-bleed pills
@@ -94,9 +98,9 @@ class AppTheme {
         style: FilledButton.styleFrom(
           backgroundColor: AppTokens.accent,
           foregroundColor: AppTokens.onAccent,
-          minimumSize: const Size.fromHeight(48),
-          shape: const StadiumBorder(),
-          textStyle: const TextStyle(
+          minimumSize: Size.fromHeight(48),
+          shape: StadiumBorder(),
+          textStyle: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
@@ -108,9 +112,9 @@ class AppTheme {
         style: OutlinedButton.styleFrom(
           foregroundColor: AppTokens.ink,
           side: BorderSide(color: AppTokens.line),
-          minimumSize: const Size.fromHeight(48),
-          shape: const StadiumBorder(),
-          textStyle: const TextStyle(
+          minimumSize: Size.fromHeight(48),
+          shape: StadiumBorder(),
+          textStyle: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w600,
           ),
@@ -121,12 +125,12 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppTokens.accent,
-          textStyle: const TextStyle(fontWeight: FontWeight.w600),
+          textStyle: TextStyle(fontWeight: FontWeight.w600),
         ),
       ),
 
       // — app bar: flat, no elevation tint
-      appBarTheme: const AppBarTheme(
+      appBarTheme: AppBarTheme(
         backgroundColor: AppTokens.bg,
         foregroundColor: AppTokens.ink,
         elevation: 0,
@@ -141,7 +145,7 @@ class AppTheme {
       ),
 
       // — drawer
-      drawerTheme: const DrawerThemeData(
+      drawerTheme: DrawerThemeData(
         backgroundColor: AppTokens.surface,
         elevation: 0,
         width: 304,
@@ -149,7 +153,7 @@ class AppTheme {
       ),
 
       // — bottom sheets (confirm modals, image upload)
-      bottomSheetTheme: const BottomSheetThemeData(
+      bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: AppTokens.surface,
         modalBackgroundColor: AppTokens.surface,
         surfaceTintColor: Colors.transparent,
@@ -166,7 +170,7 @@ class AppTheme {
       ),
 
       // Avoid raw ListTile — but if used, line it up with the gutter.
-      listTileTheme: const ListTileThemeData(
+      listTileTheme: ListTileThemeData(
         contentPadding: EdgeInsets.symmetric(horizontal: AppTokens.gutter),
         minVerticalPadding: 12,
       ),
@@ -187,14 +191,14 @@ class AppTheme {
 
   static TextStyle monoStyle({
     double fontSize = 12,
-    Color color = AppTokens.inkMuted,
+    Color? color,
     FontWeight weight = FontWeight.w500,
   }) {
     return GoogleFonts.jetBrainsMono(
       fontSize: fontSize,
       fontWeight: weight,
       letterSpacing: 0.06 * fontSize / 10.5,
-      color: color,
+      color: color ?? AppTokens.inkMuted,
     );
   }
 }

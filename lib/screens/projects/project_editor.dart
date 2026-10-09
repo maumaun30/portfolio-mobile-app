@@ -27,7 +27,7 @@ class ProjectEditorScreen extends ConsumerWidget {
     final async = ref.watch(projectByIdProvider(id!));
     return async.when(
       data: (p) => _Editor(project: p),
-      loading: () => const Scaffold(
+      loading: () => Scaffold(
         backgroundColor: AppTokens.bg,
         body: Center(
           child: CircularProgressIndicator(color: AppTokens.accent),
@@ -202,7 +202,7 @@ class _EditorState extends ConsumerState<_Editor> {
             backgroundColor: AppTokens.surface,
             content: Text(
               'Delete failed: $e',
-              style: const TextStyle(color: AppTokens.ink),
+              style: TextStyle(color: AppTokens.ink),
             ),
           ),
         );
@@ -330,7 +330,7 @@ class _EditorState extends ConsumerState<_Editor> {
               ),
               child: Text(
                 _saveError!,
-                style: const TextStyle(
+                style: TextStyle(
                     color: AppTokens.danger, fontSize: 12.5),
               ),
             ),
@@ -345,7 +345,7 @@ class _EditorState extends ConsumerState<_Editor> {
               label: const Text('Delete project…'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppTokens.danger,
-                side: const BorderSide(color: AppTokens.danger),
+                side: BorderSide(color: AppTokens.danger),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppTokens.inputRadius),
                 ),
@@ -447,11 +447,11 @@ class _CoverCard extends StatelessWidget {
                       onTap: onReplace,
                       customBorder: const StadiumBorder(),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
+                        padding: EdgeInsets.symmetric(
                             horizontal: 12, vertical: 6),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: const [
+                          children: [
                             Icon(LucideIcons.image,
                                 size: 13, color: AppTokens.ink),
                             SizedBox(width: 6),
@@ -669,7 +669,7 @@ class _Chip extends StatelessWidget {
           InkWell(
             onTap: onRemove,
             borderRadius: BorderRadius.circular(3),
-            child: const SizedBox(
+            child: SizedBox(
               width: 16,
               height: 16,
               child: Icon(LucideIcons.x, size: 11, color: AppTokens.inkMuted),
@@ -734,7 +734,7 @@ class _ToggleRow extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppTokens.ink,
@@ -744,7 +744,7 @@ class _ToggleRow extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     sub!,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 11.5, color: AppTokens.inkMuted),
                   ),
                 ],

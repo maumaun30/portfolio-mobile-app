@@ -6,6 +6,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../api/api_client.dart';
 import '../auth/auth_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../site.dart';
+import '../theme/theme_controller.dart';
 import '../theme/tokens.dart';
 import '../widgets/screen_scaffold.dart';
 import '../widgets/section_label.dart';
@@ -19,6 +22,7 @@ class SettingsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final token = ref.watch(authControllerProvider).value;
     final signedIn = token != null && token.isNotEmpty;
+    final isDark = ref.watch(themeControllerProvider) == Brightness.dark;
 
     return ScreenScaffold(
       title: 'Settings',
@@ -47,7 +51,7 @@ class SettingsScreen extends ConsumerWidget {
                             ClipboardData(text: token));
                         if (!context.mounted) return;
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             backgroundColor: AppTokens.surface,
                             duration: Duration(seconds: 1),
                             content: Text(
@@ -86,10 +90,24 @@ class SettingsScreen extends ConsumerWidget {
           _Group(
             children: [
               _Row(
-                icon: LucideIcons.moon,
-                label: 'Theme',
-                value: 'EDITORIAL DARK',
+                icon: isDark ? LucideIcons.moon : LucideIcons.sun,
+                label: 'Dark mode',
+                value: isDark ? 'GOLD NOIR' : 'PAPER LIGHT',
                 tone: AppTokens.accent,
+                trailing: Switch(
+                  value: isDark,
+                  activeColor: AppTokens.onAccent,
+                  activeTrackColor: AppTokens.accent,
+                  inactiveThumbColor: AppTokens.inkMuted,
+                  inactiveTrackColor: AppTokens.surfaceHi,
+                  trackOutlineColor:
+                      WidgetStatePropertyAll(AppTokens.line),
+                  onChanged: (v) => ref
+                      .read(themeControllerProvider.notifier)
+                      .set(v ? Brightness.dark : Brightness.light),
+                ),
+                onTap: () =>
+                    ref.read(themeControllerProvider.notifier).toggle(),
               ),
             ],
           ),
@@ -101,15 +119,24 @@ class SettingsScreen extends ConsumerWidget {
               _Row(
                 icon: LucideIcons.palette,
                 label: 'Design system',
-                trailing: const Icon(LucideIcons.chevronRight,
+                trailing: Icon(LucideIcons.chevronRight,
                     size: 16, color: AppTokens.inkMuted),
                 onTap: () => context.push('/design-system'),
+              ),
+              _Row(
+                icon: LucideIcons.globe,
+                label: 'Visit portfolio',
+                value: Uri.parse(siteUrl).host.replaceFirst('www.', ''),
+                mono: true,
+                trailing: Icon(LucideIcons.externalLink,
+                    size: 16, color: AppTokens.inkMuted),
+                onTap: () => _open(context, siteUrl),
               ),
               _Row(
                 icon: LucideIcons.externalLink,
                 label: 'Open admin on web',
                 value: 'BROWSER',
-                onTap: () {},
+                onTap: () => _open(context, '$siteUrl/admin'),
               ),
             ],
           ),
@@ -121,7 +148,7 @@ class SettingsScreen extends ConsumerWidget {
               label: const Text('Sign out'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppTokens.danger,
-                side: const BorderSide(color: AppTokens.danger),
+                side: BorderSide(color: AppTokens.danger),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(AppTokens.inputRadius),
                 ),
@@ -132,11 +159,21 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
+  Future<void> _open(BuildContext context, String url) async {
+    final ok = await launchUrl(Uri.parse(url),
+        mode: LaunchMode.externalApplication);
+    if (!ok && context.mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not open $url')),
+      );
+    }
+  }
+
   Future<void> _confirmSignOut(BuildContext context, WidgetRef ref) async {
     final ok = await showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
-      barrierColor: const Color.fromRGBO(10, 9, 7, 0.7),
+      barrierColor: AppTokens.scrim,
       builder: (ctx) => _SignOutSheet(),
     );
     if (ok == true) {
@@ -278,7 +315,7 @@ class _Row extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppTokens.ink,

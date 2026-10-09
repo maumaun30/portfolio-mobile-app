@@ -22,7 +22,7 @@ class SkillEditorScreen extends ConsumerWidget {
     final async = ref.watch(skillByIdProvider(id!));
     return async.when(
       data: (s) => _Editor(skill: s),
-      loading: () => const Scaffold(
+      loading: () => Scaffold(
         backgroundColor: AppTokens.bg,
         body: Center(
             child: CircularProgressIndicator(color: AppTokens.accent)),
@@ -121,7 +121,7 @@ class _EditorState extends ConsumerState<_Editor> {
         SnackBar(
           backgroundColor: AppTokens.surface,
           content: Text('Delete failed: $e',
-              style: const TextStyle(color: AppTokens.danger)),
+              style: TextStyle(color: AppTokens.danger)),
         ),
       );
     }
@@ -235,7 +235,7 @@ class _EditorState extends ConsumerState<_Editor> {
               ),
               child: Text(
                 _error!,
-                style: const TextStyle(
+                style: TextStyle(
                     color: AppTokens.danger, fontSize: 12.5),
               ),
             ),
@@ -250,7 +250,7 @@ class _EditorState extends ConsumerState<_Editor> {
               label: const Text('Delete skill…'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppTokens.danger,
-                side: const BorderSide(color: AppTokens.danger),
+                side: BorderSide(color: AppTokens.danger),
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(AppTokens.inputRadius),

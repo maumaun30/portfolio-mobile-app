@@ -33,7 +33,7 @@ class SectionEditorScreen extends ConsumerWidget {
       loading: () => Scaffold(
         backgroundColor: AppTokens.bg,
         appBar: AppBar(title: Text(entry.label)),
-        body: const Center(
+        body: Center(
             child: CircularProgressIndicator(color: AppTokens.accent)),
       ),
       error: (e, _) => Scaffold(
@@ -116,7 +116,7 @@ class _EditorState extends ConsumerState<_Editor> {
             duration: const Duration(seconds: 2),
             content: Text(
               '${widget.entry.label} saved',
-              style: const TextStyle(color: AppTokens.ink),
+              style: TextStyle(color: AppTokens.ink),
             ),
           ),
         );
@@ -175,7 +175,7 @@ class _EditorState extends ConsumerState<_Editor> {
               await Clipboard.setData(ClipboardData(text: _ctl.text));
               if (!context.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   backgroundColor: AppTokens.surface,
                   duration: Duration(seconds: 1),
                   content: Text('Copied',

@@ -64,6 +64,16 @@ Add `android/app/src/main/res/values/colors.xml`:
 
 ```xml
 <resources>
+    <!-- light "paper" default, matches the app's default theme -->
+    <color name="appBg">#f5f0e6</color>
+    <color name="ic_launcher_background">#0a0907</color>
+</resources>
+```
+
+and `android/app/src/main/res/values-night/colors.xml` (system dark mode → Gold Noir):
+
+```xml
+<resources>
     <color name="appBg">#0a0907</color>
 </resources>
 ```
@@ -100,8 +110,8 @@ Create at https://github.com/settings/developers → **OAuth Apps** → **New OA
 
 | Field                       | Value                                                  |
 | --------------------------- | ------------------------------------------------------ |
-| Application name            | Portfolio Admin (mobile)                               |
-| Homepage URL                | https://your-portfolio.vercel.app                      |
+| Application name            | Mau Portfolio (mobile)                                 |
+| Homepage URL                | https://www.devmau.site                                |
 | Authorization callback URL  | `portfolio-admin://oauth/callback`                     |
 
 Save, copy the **Client ID** (no secret needed; flutter_appauth uses PKCE), then pass at run time:
@@ -116,6 +126,40 @@ The first sign-in exchanges that GitHub token for a long-lived API token via `PO
 
 ---
 
+## Branding — name, icon, splash
+
+App name is **Mau Portfolio**; the icon is the devmau.site favicon (`assets/logo.png`, the 256px frame of the site's `favicon.ico`).
+
+1. Generate icons + splash bitmap (needs Pillow):
+
+   ```bash
+   python tool/gen_icons.py
+   ```
+
+   Writes Android legacy + adaptive mipmaps, `drawable/launch_logo.png`, web icons, and the iOS AppIcon set.
+
+2. `android/app/src/main/AndroidManifest.xml` — `android:label="Mau Portfolio"`, and add to `<queries>` so `url_launcher` can open the site:
+
+   ```xml
+   <intent>
+       <action android:name="android.intent.action.VIEW"/>
+       <data android:scheme="https"/>
+   </intent>
+   ```
+
+3. `drawable/launch_background.xml` and `drawable-v21/launch_background.xml` — after the `@color/appBg` item:
+
+   ```xml
+   <item>
+       <bitmap android:gravity="center" android:src="@drawable/launch_logo" />
+   </item>
+   ```
+
+4. `ios/Runner/Info.plist` — `CFBundleDisplayName` → `Mau Portfolio`.
+5. `web/index.html` / `web/manifest.json` — title / name → `Mau Portfolio`.
+
+---
+
 ## 4. Local dev quick reference
 
 | Target                | API base URL                  |
@@ -123,6 +167,7 @@ The first sign-in exchanges that GitHub token for a long-lived API token via `PO
 | Android emulator      | `http://10.0.2.2:3000`        |
 | iOS simulator         | `http://localhost:3000`       |
 | Physical device, LAN  | `http://<your-PC-IP>:3000`    |
+| Production            | `https://www.devmau.site`     |
 | Vercel preview        | `https://<branch>-<...>.vercel.app` |
 
 If you only want to exercise the UI (read-only screens, etc.) without a working OAuth flow, the sign-in screen has a **Dev: skip auth** button that writes a placeholder token. Mutating requests will then 401, but list/detail screens render fine.

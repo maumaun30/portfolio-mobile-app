@@ -31,7 +31,7 @@ class ImageUploadSheet extends ConsumerStatefulWidget {
     return showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
-      barrierColor: const Color.fromRGBO(10, 9, 7, 0.7),
+      barrierColor: AppTokens.scrim,
       builder: (_) => ImageUploadSheet(folder: folder),
     );
   }
@@ -260,7 +260,7 @@ class _Header extends StatelessWidget {
           ),
         ),
         IconButton(
-          icon: const Icon(LucideIcons.x, size: 20, color: AppTokens.inkDim),
+          icon: Icon(LucideIcons.x, size: 20, color: AppTokens.inkDim),
           onPressed: () => Navigator.of(context).pop(),
         ),
       ],
@@ -299,10 +299,10 @@ class _PickerBody extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(LucideIcons.upload,
+                Icon(LucideIcons.upload,
                     size: 26, color: AppTokens.inkDim),
                 const SizedBox(height: 10),
-                const Text(
+                Text(
                   'Tap to pick a file',
                   style: TextStyle(
                     fontSize: 14,
@@ -382,14 +382,14 @@ class _SourceRow extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   color: AppTokens.ink,
                 ),
               ),
             ),
-            const Icon(LucideIcons.chevronRight,
+            Icon(LucideIcons.chevronRight,
                 size: 15, color: AppTokens.inkMuted),
           ],
         ),
@@ -422,7 +422,7 @@ class _UploadingBody extends StatelessWidget {
       children: [
         _FileTile(
           file: file,
-          trailing: const SizedBox(
+          trailing: SizedBox(
             width: 22,
             height: 22,
             child: CircularProgressIndicator(
@@ -437,7 +437,7 @@ class _UploadingBody extends StatelessWidget {
                 _name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13.5,
                   fontWeight: FontWeight.w500,
                   color: AppTokens.ink,
@@ -451,7 +451,7 @@ class _UploadingBody extends StatelessWidget {
                   value: _progress > 0 ? _progress : null,
                   minHeight: 4,
                   backgroundColor: AppTokens.surfaceHi,
-                  valueColor: const AlwaysStoppedAnimation(AppTokens.accent),
+                  valueColor: AlwaysStoppedAnimation(AppTokens.accent),
                 ),
               ),
               const SizedBox(height: 6),
@@ -534,11 +534,11 @@ class _DoneBody extends StatelessWidget {
           trailing: Container(
             width: 22,
             height: 22,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: AppTokens.accent,
             ),
-            child: const Icon(LucideIcons.check,
+            child: Icon(LucideIcons.check,
                 size: 14, color: AppTokens.onAccent),
           ),
           body: Column(
@@ -548,7 +548,7 @@ class _DoneBody extends StatelessWidget {
                 _name,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13.5,
                   fontWeight: FontWeight.w500,
                   color: AppTokens.ink,
@@ -558,7 +558,7 @@ class _DoneBody extends StatelessWidget {
               const SizedBox(height: 10),
               Row(
                 children: [
-                  const Icon(LucideIcons.checkCircle2,
+                  Icon(LucideIcons.checkCircle2,
                       size: 11, color: AppTokens.accent),
                   const SizedBox(width: 6),
                   Text(
@@ -612,7 +612,7 @@ class _DoneBody extends StatelessWidget {
                   await Clipboard.setData(ClipboardData(text: url));
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
+                      SnackBar(
                         backgroundColor: AppTokens.surface,
                         duration: Duration(seconds: 1),
                         content: Text(
@@ -631,7 +631,7 @@ class _DoneBody extends StatelessWidget {
                     color: AppTokens.surfaceHi,
                     borderRadius: BorderRadius.circular(6),
                   ),
-                  child: const Icon(LucideIcons.copy,
+                  child: Icon(LucideIcons.copy,
                       size: 13, color: AppTokens.ink),
                 ),
               ),
@@ -688,13 +688,13 @@ class _ErrorBody extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(LucideIcons.alertTriangle,
+              Icon(LucideIcons.alertTriangle,
                   size: 16, color: AppTokens.danger),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   message,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12.5,
                     color: AppTokens.danger,
                     height: 1.5,

@@ -32,7 +32,7 @@ class ErrorPanel extends StatelessWidget {
                 color: AppTokens.danger10,
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Icon(
+              child: Icon(
                 LucideIcons.alertTriangle,
                 color: AppTokens.danger,
                 size: 28,

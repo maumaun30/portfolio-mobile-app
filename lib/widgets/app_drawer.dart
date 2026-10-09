@@ -3,7 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../theme/tokens.dart';
+import 'brand_mark.dart';
 import 'section_label.dart';
+import 'theme_toggle.dart';
 
 class _NavItem {
   const _NavItem(this.label, this.icon, this.route);
@@ -52,10 +54,17 @@ class AppDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SectionLabel('Studio'),
-                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const BrandMark(size: 28),
+                      const SizedBox(width: 10),
+                      const Expanded(child: SectionLabel('Studio')),
+                      const ThemeToggle(),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
                   Text(
-                    'Portfolio CMS',
+                    'Mau Portfolio',
                     style: GoogleFonts.inter(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -65,7 +74,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Maurico Maun',
+                    'devmau.site',
                     style: TextStyle(fontSize: 12, color: AppTokens.inkDim),
                   ),
                 ],

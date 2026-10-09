@@ -1,5 +1,5 @@
 name: portfolio_admin
-description: Mobile admin for the Maurico Maun portfolio CMS.
+description: Mau Portfolio - mobile admin for the devmau.site portfolio CMS.
 publish_to: "none"
 version: 0.1.0+1
 
@@ -28,7 +28,7 @@ dependencies:
   # Typography (fallback if system Inter / JetBrains Mono unavailable)
   google_fonts: ^6.2.1
 
-  # Icons — Lucide subset per design
+  # Icons â€” Lucide subset per design
   lucide_icons_flutter: ^3.1.14
 
   # Image picking (gallery + camera)
@@ -36,6 +36,8 @@ dependencies:
 
   # Markdown rendering for post editor preview
   flutter_markdown: ^0.7.4
+  shared_preferences: ^2.5.6
+  url_launcher: ^6.3.3
 
 dev_dependencies:
   flutter_lints: ^4.0.0
@@ -44,3 +46,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/logo.png

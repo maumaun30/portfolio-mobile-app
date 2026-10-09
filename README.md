@@ -1,30 +1,43 @@
-# Portfolio Admin (Flutter)
+# Mau Portfolio (Flutter)
 
-Mobile admin app for the [Maurico Maun portfolio CMS](../portfolio/my-portfolio).
-Implements the design system from `claude.ai/design` → "Portfolio Mobile App".
+Mobile admin app for the portfolio CMS behind [devmau.site](https://www.devmau.site).
+Edit projects, skills, posts, auto-blog keywords and page sections from your phone. It talks to the same Next.js API as the web admin.
 
-## What's built
+## Features
 
-- `lib/theme/` — custom `ThemeData` over Material 3 matching the editorial dark-gold brand.
-- `lib/widgets/` — `SectionLabel`, `StatusBadge`, `SubmitBar`, `AppDrawer`, `ScreenScaffold`, `CoverThumb`, `EmptyState`, `ErrorPanel`, `ConfirmDeleteSheet`.
-- `lib/screens/` — Splash, Sign-in, Dashboard, Design System showcase. **Projects list + editor (full CRUD)**. Stubs for Skills / Posts / Keywords / Sections / Notifications / Search / Settings.
-- `lib/auth/` — GitHub OAuth scaffolding via `flutter_appauth` + `flutter_secure_storage`, with a dev "skip auth" button.
-- `lib/api/` — Dio client with Bearer interceptor, `projects_api.dart` (list / create / update / delete with Riverpod providers).
-- `lib/models/project.dart` — typed Project model matching the Drizzle schema.
-- `lib/router.dart` — `go_router` with auth-aware redirects and nested `/projects/:id` routes.
+- **Light / dark theme.** Same palettes as devmau.site: warm "paper" light (default) and "Gold Noir" dark. Toggle with the sun/moon button in the drawer header or in **Settings → Appearance**. The choice is saved on the device.
+- **Dashboard.** Real counts per collection plus recent activity.
+- **Projects.** List with pull-to-refresh, shimmer loading and swipe-to-edit. The editor covers cover upload, slug validation, stack tags, status / current toggles, and a delete that asks you to type the slug.
+- **Posts.** Filter chips (All / Blog / Case study). Markdown editor with Write / Preview tabs, cover upload, publish / draft.
+- **Skills.** simpleicons.org brand icons tinted to the theme ink, with drag-to-reorder mode.
+- **Keywords.** Auto-blog terms with enable switches, per-term or global "Generate now" (`/api/blog/generate`).
+- **Sections.** JSON editor for the site's page sections, with reformat / copy / revert and Zod error display.
+- **Search, Notifications, Settings, Design system** showcase.
+- **Auth.** GitHub OAuth (PKCE) through `flutter_appauth`. The code is exchanged server-side for a long-lived API token, which is kept in `flutter_secure_storage`.
 
-All drawer routes are now real screens — no more stubs. Stub_screen.dart is gone.
+## Stack
 
-### Projects screens implemented
-- **List** — pull-to-refresh, loading shimmer rows, empty state, error state with retry, sub-bar with count and sort dropdown, pill FAB. Swipe-end-to-start opens the editor (delete lives inside).
-- **Editor** — cover (URL prompt for now), name, slug (auto from name, regex validation), domain, link, description, stacks tag input (chips + add-on-submit), status + isCurrent toggles, sticky save bar, error banner on save failure, destructive "Delete project…" → `ConfirmDeleteSheet` requiring the slug typed verbatim.
+Flutter 3.22+ · Material 3 (custom-themed) · `go_router` · `flutter_riverpod` · `dio` · `flutter_appauth` · `shared_preferences` · `url_launcher` · `google_fonts` (Inter / JetBrains Mono) · `lucide_icons_flutter`
 
-## What's NOT built yet
+## Project layout
 
-- The screen bodies for Projects / Skills / Posts / Keywords / Sections (designs exist; not implemented).
-- The token-exchange endpoint on the Next.js side. NextAuth uses session cookies, so the API doesn't accept `Bearer` tokens today. See **API changes needed** below.
-- Image upload (Vercel Blob) integration on mobile.
-- Pull-to-refresh, shimmer loading states, swipe-row actions, bottom-sheet confirms.
+```
+lib/
+  api/        Dio client (Bearer interceptor) + one file per resource
+  auth/       GitHub OAuth (authorize on-device, exchange on the server)
+  models/     Typed models matching the Drizzle schema
+  screens/    One folder per resource (list + editor)
+  theme/      tokens.dart (light + dark palettes), app_theme.dart, theme_controller.dart
+  widgets/    Shared UI: drawer, sheets, badges, brand mark, theme toggle
+  router.dart go_router with auth-aware redirects
+  site.dart   Public site URL (https://www.devmau.site)
+assets/logo.png   devmau.site favicon, used for app icon + splash
+tool/gen_icons.py Generates launcher icons / splash from assets/logo.png
+```
+
+### Theming
+
+`AppTokens` colors resolve against the active `AppPalette` (`AppPalette.light` / `AppPalette.dark`). The values mirror the CSS variables in the web portfolio's `app/globals.css`. `ThemeController` holds the saved preference. On toggle it swaps the palette and rebuilds the tree in place, so open screens and forms keep their state. As on the web (`defaultTheme="light"`, `enableSystem={false}`), the default is light and the OS setting is ignored.
 
 ## Running
 
@@ -32,34 +45,34 @@ All drawer routes are now real screens — no more stubs. Stub_screen.dart is go
 flutter pub get
 flutter run \
   --dart-define=API_BASE_URL=http://10.0.2.2:3000 \
-  --dart-define=GITHUB_CLIENT_ID=<github-oauth-app-client-id> \
-  --dart-define=OAUTH_REDIRECT_URI=portfolio-admin://oauth/callback
+  --dart-define=GITHUB_CLIENT_ID=<github-oauth-app-client-id>
 ```
 
-For Android emulator → host machine, `localhost` is `10.0.2.2`. For iOS simulator, `localhost` works.
+Or on Windows: `./run.ps1` (defaults to the emulator → host API).
 
-While the token exchange endpoint doesn't exist, use the **Dev: skip auth** button on the sign-in screen to enter the app.
+| Define               | Default                            | Notes                               |
+| -------------------- | ---------------------------------- | ----------------------------------- |
+| `API_BASE_URL`       | `http://localhost:3000`            | `http://10.0.2.2:3000` for Android emulator → host |
+| `GITHUB_CLIENT_ID`   | —                                  | Required for sign-in                |
+| `OAUTH_REDIRECT_URI` | `portfolio-admin://oauth/callback` |                                     |
+| `SITE_URL`           | `https://www.devmau.site`          | "Visit portfolio" / "Open admin on web" links |
+
+If you only want to look at the UI, the sign-in screen's **Dev: skip auth** button lets you in. Writes will return 401.
+
+## Building the release APK
+
+```bash
+flutter build apk --release \
+  --dart-define=API_BASE_URL=https://www.devmau.site \
+  --dart-define=GITHUB_CLIENT_ID=<client-id>
+# → build/app/outputs/flutter-apk/app-release.apk
+```
+
+## Platform setup
+
+Platform folders (`android/`, `ios/`, …) aren't committed. Generate them with `flutter create .`, then apply the patches in [PLATFORM_SETUP.md](./PLATFORM_SETUP.md): OAuth deep link, launch background, image-picker permissions, and branding (name, icon, splash via `python tool/gen_icons.py`).
 
 ## API auth (Next.js side)
 
-Implemented. The portfolio repo now ships:
-
-- `api_tokens` table — `token_hash` (sha256), `label`, `user_id`, `last_used_at`.
-- `lib/api-auth.ts` → `authorize(request)` accepts a NextAuth session cookie **or** a valid `Authorization: Bearer <token>` header.
-- `POST /api/auth/exchange` — accepts `{ githubAccessToken, label? }`, validates the token via `GET https://api.github.com/user`, enforces the `ADMIN_GITHUB_LOGIN` gate, and returns a freshly-generated opaque token (hash-only stored).
-- Every mutating `/api/*` route swept to use the new helper (`projects`, `skills`, `content`, `upload`, `blog/generate`).
-
-The plain token is returned ONCE on exchange — `flutter_secure_storage` keeps it on-device after that.
-
-## OAuth & platform setup
-
-See [PLATFORM_SETUP.md](./PLATFORM_SETUP.md) for the one-time `flutter create .`, Android intent-filter, iOS URL scheme, and image-picker permission patches.
-
-## Next screens to build (in priority order)
-
-1. ~~Projects list + editor~~ — done.
-2. ~~Image upload bottom sheet~~ — done. Picker / uploading-with-progress / done-with-blob-URL-preview / error states. Used by the project editor's cover field; ready to reuse on the post editor.
-3. ~~Keywords list with "Generate now" action wired to `/api/blog/generate`~~ — done. Hero auto-blog CTA fires the global generate; per-row spark button generates for a specific term. Inline enable/disable switch. Editor for create/edit. New REST endpoints `/api/keywords` + `/api/keywords/[id]` on the Next.js side.
-4. ~~Posts list + markdown editor~~ — done. Filter chips (All / Blog / Case study), row with cover thumb + type + date + status badge, FAB to add. Editor has cover (via ImageUploadSheet), title, type dropdown, status switch, slug (auto from title, regex-validated), excerpt, markdown body with Write / Preview tabs (flutter_markdown), bottom bar with separate Publish pill and Save & publish / Save draft action.
-5. ~~Skills list with reorder~~ — done. Static list with simpleicons.org-tinted brand icons. App-bar toggle flips into a `ReorderableListView` (drag-handles surface, sort PATCHes only the rows that actually moved). Editor with live preview tile, slug + label fields, delete confirm.
-6. ~~Page sections editor~~ — done. List of the 6 known sections with section-specific icons. Editor is a monospaced JSON textarea (full-screen, scroll-safe) with reformat and copy actions in the app bar, a Revert button on the submit bar, and structured error display (server-side Zod issues come back as `path: message` lines).
+- `POST /api/auth/exchange` takes `{ code, codeVerifier, redirectUri, label }` and swaps the code with GitHub using the server-held client secret. It enforces the `ADMIN_GITHUB_LOGIN` gate and returns an opaque API token. Only a hash of the token is stored, in `api_tokens`.
+- `authorize(request)` in `lib/api-auth.ts` accepts either a NextAuth session cookie or `Authorization: Bearer <token>` on every mutating `/api/*` route.

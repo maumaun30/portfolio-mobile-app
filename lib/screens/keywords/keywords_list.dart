@@ -40,7 +40,7 @@ class _KeywordsListScreenState extends ConsumerState<KeywordsListScreen> {
           duration: const Duration(seconds: 4),
           content: Text(
             'Published: ${res.slug.isEmpty ? res.keyword : res.slug}',
-            style: const TextStyle(color: AppTokens.ink),
+            style: TextStyle(color: AppTokens.ink),
           ),
         ),
       );
@@ -52,7 +52,7 @@ class _KeywordsListScreenState extends ConsumerState<KeywordsListScreen> {
           duration: const Duration(seconds: 6),
           content: Text(
             'Generate failed: $e',
-            style: const TextStyle(color: AppTokens.danger),
+            style: TextStyle(color: AppTokens.danger),
           ),
         ),
       );
@@ -156,7 +156,7 @@ class _KeywordsListScreenState extends ConsumerState<KeywordsListScreen> {
                               content: Text(
                                 'Toggle failed: $e',
                                 style:
-                                    const TextStyle(color: AppTokens.danger),
+                                    TextStyle(color: AppTokens.danger),
                               ),
                             ),
                           );
@@ -220,14 +220,14 @@ class _HeroCta extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: generating
-                        ? const Padding(
+                        ? Padding(
                             padding: EdgeInsets.all(10),
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
                               color: AppTokens.onAccent,
                             ),
                           )
-                        : const Icon(
+                        : Icon(
                             LucideIcons.sparkles,
                             size: 20,
                             color: AppTokens.onAccent,
@@ -252,14 +252,14 @@ class _HeroCta extends StatelessWidget {
                           generating
                               ? 'Picking a term · drafting · publishing.'
                               : '$active active term${active == 1 ? '' : 's'} ready · ~30 s.',
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontSize: 12, color: AppTokens.inkDim),
                         ),
                       ],
                     ),
                   ),
                   if (!generating)
-                    const Icon(LucideIcons.chevronRight,
+                    Icon(LucideIcons.chevronRight,
                         size: 16, color: AppTokens.accent),
                 ],
               ),
@@ -347,7 +347,7 @@ class _Row extends StatelessWidget {
                     keyword.term.toLowerCase(),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14.5,
                       fontWeight: FontWeight.w500,
                       color: AppTokens.ink,
@@ -382,14 +382,14 @@ class _Row extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: generating
-                      ? const Padding(
+                      ? Padding(
                           padding: EdgeInsets.all(7),
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
                             color: AppTokens.accent,
                           ),
                         )
-                      : const Icon(LucideIcons.sparkles,
+                      : Icon(LucideIcons.sparkles,
                           size: 14, color: AppTokens.inkDim),
                 ),
               ),

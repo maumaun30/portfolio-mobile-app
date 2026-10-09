@@ -103,7 +103,7 @@ class _SubBar extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 4),
-          const Icon(LucideIcons.chevronDown,
+          Icon(LucideIcons.chevronDown,
               size: 12, color: AppTokens.inkDim),
         ],
       ),
@@ -124,7 +124,7 @@ class _ProjectRow extends ConsumerWidget {
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.symmetric(horizontal: 24),
         color: AppTokens.danger10,
-        child: const Icon(LucideIcons.trash2,
+        child: Icon(LucideIcons.trash2,
             color: AppTokens.danger, size: 18),
       ),
       confirmDismiss: (_) async {
@@ -153,7 +153,7 @@ class _ProjectRow extends ConsumerWidget {
                       project.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: AppTokens.ink,
@@ -187,7 +187,7 @@ class _ProjectRow extends ConsumerWidget {
                   ],
                 ),
               ),
-              const Icon(LucideIcons.gripVertical,
+              Icon(LucideIcons.gripVertical,
                   size: 18, color: AppTokens.inkMuted),
             ],
           ),

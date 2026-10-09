@@ -21,7 +21,7 @@ class KeywordEditorScreen extends ConsumerWidget {
     final async = ref.watch(keywordByIdProvider(id!));
     return async.when(
       data: (k) => _Editor(keyword: k),
-      loading: () => const Scaffold(
+      loading: () => Scaffold(
         backgroundColor: AppTokens.bg,
         body: Center(
             child: CircularProgressIndicator(color: AppTokens.accent)),
@@ -116,7 +116,7 @@ class _EditorState extends ConsumerState<_Editor> {
         SnackBar(
           backgroundColor: AppTokens.surface,
           content: Text('Delete failed: $e',
-              style: const TextStyle(color: AppTokens.danger)),
+              style: TextStyle(color: AppTokens.danger)),
         ),
       );
     }
@@ -188,7 +188,7 @@ class _EditorState extends ConsumerState<_Editor> {
             ),
             child: Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -236,7 +236,7 @@ class _EditorState extends ConsumerState<_Editor> {
               child: Text(
                 _error!,
                 style:
-                    const TextStyle(color: AppTokens.danger, fontSize: 12.5),
+                    TextStyle(color: AppTokens.danger, fontSize: 12.5),
               ),
             ),
           ],
@@ -250,7 +250,7 @@ class _EditorState extends ConsumerState<_Editor> {
               label: const Text('Delete keyword…'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppTokens.danger,
-                side: const BorderSide(color: AppTokens.danger),
+                side: BorderSide(color: AppTokens.danger),
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(AppTokens.inputRadius),

@@ -30,7 +30,7 @@ class SimpleIcon extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Image.network(
-          'https://cdn.simpleicons.org/$slug/efe6d4',
+          'https://cdn.simpleicons.org/$slug/${AppTokens.inkHex}',
           width: size * 0.55,
           height: size * 0.55,
           fit: BoxFit.contain,

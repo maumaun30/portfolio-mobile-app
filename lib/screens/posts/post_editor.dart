@@ -23,7 +23,7 @@ class PostEditorScreen extends ConsumerWidget {
     final async = ref.watch(postByIdProvider(id!));
     return async.when(
       data: (p) => _Editor(post: p),
-      loading: () => const Scaffold(
+      loading: () => Scaffold(
         backgroundColor: AppTokens.bg,
         body: Center(
             child: CircularProgressIndicator(color: AppTokens.accent)),
@@ -178,7 +178,7 @@ class _EditorState extends ConsumerState<_Editor> {
         SnackBar(
           backgroundColor: AppTokens.surface,
           content: Text('Delete failed: $e',
-              style: const TextStyle(color: AppTokens.danger)),
+              style: TextStyle(color: AppTokens.danger)),
         ),
       );
     }
@@ -386,7 +386,7 @@ class _EditorState extends ConsumerState<_Editor> {
               ),
               child: Text(
                 _saveError!,
-                style: const TextStyle(
+                style: TextStyle(
                     color: AppTokens.danger, fontSize: 12.5),
               ),
             ),
@@ -401,7 +401,7 @@ class _EditorState extends ConsumerState<_Editor> {
               label: const Text('Delete post…'),
               style: OutlinedButton.styleFrom(
                 foregroundColor: AppTokens.danger,
-                side: const BorderSide(color: AppTokens.danger),
+                side: BorderSide(color: AppTokens.danger),
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(AppTokens.inputRadius),
@@ -430,7 +430,7 @@ class _EditorState extends ConsumerState<_Editor> {
   }
 
   MarkdownStyleSheet _markdownStyle() => MarkdownStyleSheet(
-        p: const TextStyle(
+        p: TextStyle(
             color: AppTokens.inkDim, fontSize: 14, height: 1.6),
         h1: GoogleFonts.inter(
           fontSize: 22,
@@ -449,19 +449,19 @@ class _EditorState extends ConsumerState<_Editor> {
           fontWeight: FontWeight.w600,
           color: AppTokens.ink,
         ),
-        strong: const TextStyle(
+        strong: TextStyle(
             color: AppTokens.ink, fontWeight: FontWeight.w600),
-        em: const TextStyle(color: AppTokens.ink, fontStyle: FontStyle.italic),
-        a: const TextStyle(
+        em: TextStyle(color: AppTokens.ink, fontStyle: FontStyle.italic),
+        a: TextStyle(
             color: AppTokens.accent, decoration: TextDecoration.underline),
-        listBullet: const TextStyle(color: AppTokens.inkDim, fontSize: 14),
+        listBullet: TextStyle(color: AppTokens.inkDim, fontSize: 14),
         blockquoteDecoration: BoxDecoration(
           border: Border(
             left: BorderSide(color: AppTokens.accent, width: 2),
           ),
         ),
         blockquotePadding: const EdgeInsets.only(left: 12),
-        blockquote: const TextStyle(
+        blockquote: TextStyle(
             color: AppTokens.ink,
             fontStyle: FontStyle.italic,
             fontSize: 14,
@@ -551,7 +551,7 @@ class _CoverCard extends StatelessWidget {
                 child: InkWell(
                   onTap: onReplace,
                   customBorder: const StadiumBorder(),
-                  child: const Padding(
+                  child: Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: 12, vertical: 6),
                     child: Row(
@@ -601,9 +601,9 @@ class _TypeDropdown extends StatelessWidget {
           value: value,
           isExpanded: true,
           dropdownColor: AppTokens.surface,
-          icon: const Icon(LucideIcons.chevronDown,
+          icon: Icon(LucideIcons.chevronDown,
               size: 16, color: AppTokens.inkDim),
-          style: const TextStyle(fontSize: 14, color: AppTokens.ink),
+          style: TextStyle(fontSize: 14, color: AppTokens.ink),
           items: PostType.values
               .map((t) => DropdownMenuItem(
                     value: t,
@@ -735,7 +735,7 @@ class _BottomBar extends StatelessWidget {
             ),
             child: Row(
               children: [
-                const Text(
+                Text(
                   'Publish',
                   style: TextStyle(
                     fontSize: 12,

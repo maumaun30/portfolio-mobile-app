@@ -41,7 +41,7 @@ class _SkillsListScreenState extends ConsumerState<SkillsListScreen> {
         SnackBar(
           backgroundColor: AppTokens.surface,
           content: Text('Reorder failed: $e',
-              style: const TextStyle(color: AppTokens.danger)),
+              style: TextStyle(color: AppTokens.danger)),
         ),
       );
       ref.invalidate(skillsListProvider);
@@ -236,7 +236,7 @@ class _ReorderableState extends State<_Reorderable> {
             skill: s,
             trailing: ReorderableDragStartListener(
               index: i,
-              child: const Padding(
+              child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 6, vertical: 8),
                 child: Icon(LucideIcons.gripVertical,
                     size: 18, color: AppTokens.inkDim),
@@ -271,7 +271,7 @@ class _Row extends StatelessWidget {
                   skill.label,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: AppTokens.ink,
@@ -294,7 +294,7 @@ class _Row extends StatelessWidget {
           if (trailing != null)
             trailing!
           else
-            const Icon(LucideIcons.chevronRight,
+            Icon(LucideIcons.chevronRight,
                 size: 16, color: AppTokens.inkMuted),
         ],
       ),

@@ -117,7 +117,7 @@ class SectionsListScreen extends StatelessWidget {
                               children: [
                                 Text(
                                   s.label,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w500,
                                     color: AppTokens.ink,
@@ -147,7 +147,7 @@ class SectionsListScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const Icon(LucideIcons.chevronRight,
+                      Icon(LucideIcons.chevronRight,
                           size: 16, color: AppTokens.inkMuted),
                     ],
                   ),

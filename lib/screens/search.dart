@@ -111,7 +111,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       );
     }
     if (_loading && _hits.isEmpty) {
-      return const Center(
+      return Center(
         child: CircularProgressIndicator(color: AppTokens.accent),
       );
     }
@@ -165,7 +165,7 @@ class _SearchField extends StatelessWidget {
         textInputAction: TextInputAction.search,
         decoration: InputDecoration(
           hintText: 'Search projects, posts, skills…',
-          prefixIcon: const Padding(
+          prefixIcon: Padding(
             padding: EdgeInsets.only(left: 14, right: 8),
             child: Icon(LucideIcons.search,
                 size: 18, color: AppTokens.inkDim),
@@ -177,7 +177,7 @@ class _SearchField extends StatelessWidget {
             builder: (_, v, __) => v.text.isEmpty
                 ? const SizedBox.shrink()
                 : IconButton(
-                    icon: const Icon(LucideIcons.x,
+                    icon: Icon(LucideIcons.x,
                         size: 16, color: AppTokens.inkDim),
                     onPressed: onClear,
                   ),
@@ -291,7 +291,7 @@ class _Row extends StatelessWidget {
                     hit.title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 14.5,
                       fontWeight: FontWeight.w500,
                       color: AppTokens.ink,
@@ -311,7 +311,7 @@ class _Row extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(LucideIcons.chevronRight,
+            Icon(LucideIcons.chevronRight,
                 size: 14, color: AppTokens.inkMuted),
           ],
         ),

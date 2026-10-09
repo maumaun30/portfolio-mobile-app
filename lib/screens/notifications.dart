@@ -189,7 +189,7 @@ class _Row extends StatelessWidget {
               children: [
                 Text(
                   activity.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppTokens.ink,

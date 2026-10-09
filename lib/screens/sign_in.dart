@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../auth/auth_provider.dart';
 import '../theme/tokens.dart';
+import '../widgets/brand_mark.dart';
 import '../widgets/section_label.dart';
 
 class SignInScreen extends ConsumerWidget {
@@ -24,31 +25,12 @@ class SignInScreen extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Spacer(),
-              Center(
-                child: Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: AppTokens.accent, width: 1.4),
-                  ),
-                  child: Center(
-                    child: Container(
-                      width: 12,
-                      height: 12,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppTokens.accent,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              const Center(child: BrandMark(size: 64)),
               const SizedBox(height: 28),
               const Center(child: SectionLabel('Sign in')),
               const SizedBox(height: 10),
               Text(
-                'Portfolio CMS',
+                'Mau Portfolio',
                 textAlign: TextAlign.center,
                 style: GoogleFonts.inter(
                   fontSize: 26,
@@ -92,7 +74,7 @@ class SignInScreen extends ConsumerWidget {
                   ),
                   child: Text(
                     error,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: AppTokens.danger,
                       fontSize: 12.5,
                     ),

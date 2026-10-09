@@ -1,3 +1,5 @@
+import '../theme/tokens.dart';
+
 class Skill {
   Skill({
     required this.id,
@@ -13,7 +15,7 @@ class Skill {
 
   /// Single-color SVG from simpleicons.org, tinted to ink so it reads on
   /// the dark canvas. Same trick the web admin uses.
-  String get iconUrl => 'https://cdn.simpleicons.org/$slug/efe6d4';
+  String get iconUrl => 'https://cdn.simpleicons.org/$slug/${AppTokens.inkHex}';
 
   factory Skill.fromJson(Map<String, dynamic> json) => Skill(
         id: json['id'] as String,
